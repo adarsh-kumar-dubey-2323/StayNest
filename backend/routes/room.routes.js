@@ -15,7 +15,7 @@ roomRouter.post(
   "/add",
   isAuthenticated,
   isOwner,
-  upload.array("image"),
+  upload.array("image",5),
   addRoom
 );
 
