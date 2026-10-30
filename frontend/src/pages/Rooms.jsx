@@ -28,14 +28,18 @@ const Rooms = () => {
                 className="bg-white rounded-2xl shadow-lg overflow-hidden"
               >
 
-                {/* Room Image */}
-                {room.images?.length > 0 && (
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}/images/${room.images[0]}`}
-                    alt={room.roomType}
-                    className="w-full h-56 object-cover"
-                  />
-                )}
+               {/* Room Image */}
+{room.images?.length > 0 && (
+  <img
+    src={
+      room.images[0].startsWith("http")
+        ? room.images[0]
+        : `${import.meta.env.VITE_BACKEND_URL}/images/${room.images[0]}`
+    }
+    alt={room.roomType}
+    className="w-full h-56 object-cover"
+  />
+)}
 
                 <div className="p-6">
 
