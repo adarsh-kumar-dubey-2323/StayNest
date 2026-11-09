@@ -8,6 +8,7 @@ import SingleRoom from "./pages/Singleroom";
 import Mybookings from "./pages/Mybookings.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
+import ListYourHotel from "./pages/ListYourHotel.jsx";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Admin from "./pages/owner/Admin.jsx";
@@ -23,7 +24,7 @@ import Loader from "./components/Loader.jsx";
 const App = () => {
   const location = useLocation();
   const ownerPath = location.pathname.startsWith("/owner");
-  const { owner, authLoading } = useContext(AppContext);
+  const { owner, authLoading, user, isAdmin } = useContext(AppContext);
 
   if (authLoading && ownerPath) {
     return <div className="flex min-h-screen items-center justify-center text-gray-600">Checking session...</div>;
@@ -44,6 +45,8 @@ const App = () => {
         <Route path="/loader/:nextUrl" element={<Loader />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/list-your-hotel" element={<ListYourHotel />} />
+        <Route path="/admin/applications" element={isAdmin ? <Admin /> : <Navigate to={user ? "/" : "/login"} replace />} />
 
         <Route path="/owner" element={isOwner ? <OwnerLayout /> : <Navigate to="/login" replace />}>
           <Route index element={<AllHotels />} />
