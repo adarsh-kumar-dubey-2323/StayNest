@@ -37,6 +37,7 @@ const AppContextProvider = ({ children }) => {
   // AUTHENTICATION STATES
   const [user, setUser] = useState(null);
   const [owner, setOwner] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
   // HOTEL AND ROOM STATES
@@ -53,6 +54,7 @@ const AppContextProvider = ({ children }) => {
 
       if (data.success && data.user) {
         setUser(data.user);
+        setIsAdmin(Boolean(data.isAdmin));
 
         if (data.user.role === "owner") {
           setOwner(data.user);
@@ -65,12 +67,14 @@ const AppContextProvider = ({ children }) => {
 
       setUser(null);
       setOwner(null);
+      setIsAdmin(false);
 
       return null;
 
     } catch (error) {
       setUser(null);
       setOwner(null);
+      setIsAdmin(false);
 
       console.debug(
         "Authentication check:",
@@ -188,6 +192,7 @@ const AppContextProvider = ({ children }) => {
     setUser,
     owner,
     setOwner,
+    isAdmin,
     authLoading,
     checkUserLoggedInorNot,
 
