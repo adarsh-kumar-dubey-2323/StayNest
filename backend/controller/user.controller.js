@@ -65,6 +65,7 @@ export const login = async (req, res) => {
       success: true,
       message: "Login successful.",
       user: { _id: user._id, name: user.name, email: user.email, role: user.role },
+      isAdmin: Boolean(process.env.ADMIN_EMAIL && user.email.toLowerCase() === process.env.ADMIN_EMAIL.trim().toLowerCase()),
     });
   } catch (error) {
     console.error("Login error:", error);
