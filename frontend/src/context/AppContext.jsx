@@ -193,6 +193,7 @@ const AppContextProvider = ({ children }) => {
     owner,
     setOwner,
     isAdmin,
+    setIsAdmin,
     authLoading,
     checkUserLoggedInorNot,
 
