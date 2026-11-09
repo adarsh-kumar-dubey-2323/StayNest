@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import { AppContext } from "../context/AppContext.jsx";
 
 const Navbar = () => {
-    const { navigate, user, owner, isAdmin, setUser, setOwner, axios } = useContext(AppContext);
+    const { navigate, user, owner, isAdmin, setUser, setOwner, setIsAdmin, axios } = useContext(AppContext);
 
     const navLinks = [
         { name: "Home", path: "/" },
@@ -26,6 +26,7 @@ const Navbar = () => {
                 toast.success(data.message || "Logged out successfully.");
                 setUser(null);
                 setOwner(null);
+                setIsAdmin(false);
                 setIsMenuOpen(false);
                 navigate("/");
             }
