@@ -8,6 +8,7 @@ import SingleRoom from "./pages/Singleroom";
 import Mybookings from "./pages/Mybookings.jsx";
 import Login from "./pages/Login.jsx";
 import Signup from "./pages/Signup.jsx";
+import VerifyEmail from "./pages/VerifyEmail.jsx";
 import ListYourHotel from "./pages/ListYourHotel.jsx";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -45,6 +46,7 @@ const App = () => {
         <Route path="/loader/:nextUrl" element={<Loader />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/list-your-hotel" element={<ListYourHotel />} />
         <Route path="/admin/applications" element={authLoading ? <div className="p-10 text-center">Checking admin session...</div> : isAdmin ? <Admin /> : <Navigate to={user ? "/" : "/login"} replace />} />
 

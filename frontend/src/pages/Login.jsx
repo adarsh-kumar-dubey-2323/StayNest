@@ -51,6 +51,11 @@ const submitHandler = async (e) => {
       toast.error(data.message || "Login failed");
     }
   } catch (error) {
+    if (error.response?.data?.code === "EMAIL_NOT_VERIFIED") {
+      toast.error("Please verify your email before logging in.");
+      navigate("/verify-email?email=" + encodeURIComponent(formData.email.trim()));
+      return;
+    }
     toast.error(
       error.response?.data?.message || "Unable to log in. Please try again."
     );
