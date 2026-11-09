@@ -84,9 +84,20 @@ const Navbar = () => {
                         </button>
                     </>
                 ) : (
-                    <button onClick={() => navigate("/login")} className="ml-4 rounded-full bg-white px-8 py-2.5 text-black transition-all duration-300 hover:bg-amber-300">
-                        Login
-                    </button>
+                    <>
+                        <button
+                            onClick={() => navigate("/login")}
+                            className="ml-4 rounded-full border border-white/80 px-6 py-2.5 text-white transition-all duration-300 hover:bg-white/10"
+                        >
+                            Login
+                        </button>
+                        <button
+                            onClick={() => navigate("/signup")}
+                            className="rounded-full bg-white px-7 py-2.5 font-semibold text-[#ff6347] shadow-sm transition-all duration-300 hover:bg-amber-300 hover:text-gray-900"
+                        >
+                            Sign Up
+                        </button>
+                    </>
                 )}
             </div>
 
@@ -153,9 +164,20 @@ const Navbar = () => {
                             <button onClick={logout} className="rounded-full bg-white px-5 py-2 text-black">Logout</button>
                         </>
                     ) : (
-                        <button onClick={() => { setIsMenuOpen(false); navigate("/login"); }} className="rounded-full bg-white px-5 py-2 text-black">
-                            Login
-                        </button>
+                        <>
+                            <button
+                                onClick={() => { setIsMenuOpen(false); navigate("/login"); }}
+                                className="w-40 rounded-full border border-white/80 px-5 py-2 text-white transition hover:bg-white/10"
+                            >
+                                Login
+                            </button>
+                            <button
+                                onClick={() => { setIsMenuOpen(false); navigate("/signup"); }}
+                                className="w-40 rounded-full bg-white px-5 py-2 font-semibold text-[#ff6347] transition hover:bg-amber-300 hover:text-gray-900"
+                            >
+                                Sign Up
+                            </button>
+                        </>
                     )}
 
                 </div>
