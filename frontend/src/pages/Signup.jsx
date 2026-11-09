@@ -16,14 +16,13 @@ const Signup = () => {
     try {
       setLoading(true);
       const { data } = await axios.post("/api/user/signup", formData);
-      if (data.success) {
-        toast.success(data.message || "Account created successfully!");
-        navigate("/login", { replace: true });
-      } else {
-        toast.error(data.message || "Signup failed.");
-      }
+      toast.success(data.message || "Check your inbox to verify your email.");
+      navigate("/verify-email?email=" + encodeURIComponent(formData.email.trim()), { replace: true });
     } catch (error) {
       toast.error(error.response?.data?.message || "Unable to register. Please try again.");
+      if (error.response?.data?.accountCreated) {
+        navigate("/verify-email?email=" + encodeURIComponent(formData.email.trim()), { replace: true });
+      }
     } finally {
       setLoading(false);
     }
@@ -36,20 +35,16 @@ const Signup = () => {
           <h1 className="text-3xl font-semibold text-gray-900">Create Account</h1>
           <p className="mt-2 text-sm text-gray-500">Join StayNest and book your next stay.</p>
         </div>
-
         <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-700">Full Name</label>
         <input id="name" type="text" name="name" placeholder="Enter your full name" autoComplete="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} required className="mb-4 h-12 w-full rounded-xl border border-gray-300 px-4 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" />
-
         <label htmlFor="email" className="mb-2 block text-sm font-medium text-gray-700">Email Address</label>
         <input id="email" type="email" name="email" placeholder="Enter your email" autoComplete="email" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} required className="mb-4 h-12 w-full rounded-xl border border-gray-300 px-4 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100" />
-
         <label htmlFor="password" className="mb-2 block text-sm font-medium text-gray-700">Password</label>
         <div className="mb-2 flex h-12 items-center rounded-xl border border-gray-300 px-4 focus-within:border-indigo-500">
           <input id="password" type={showPassword ? "text" : "password"} name="password" placeholder="Create a password" autoComplete="new-password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} minLength={8} required className="w-full outline-none" />
           <button type="button" onClick={() => setShowPassword((prev) => !prev)} className="ml-2 text-sm text-indigo-600">{showPassword ? "Hide" : "Show"}</button>
         </div>
         <p className="mb-5 text-xs text-gray-500">Password must contain at least 8 characters.</p>
-
         <button type="submit" disabled={loading} className="h-12 w-full rounded-xl bg-indigo-500 font-semibold text-white transition hover:bg-indigo-600 disabled:cursor-not-allowed disabled:opacity-60">{loading ? "Creating account..." : "Create Account"}</button>
         <p className="mt-6 text-center text-sm text-gray-500">Already have an account?<Link to="/login" className="ml-1 font-medium text-indigo-600 hover:underline">Login</Link></p>
         <p className="mt-4 text-center text-sm text-gray-500">Want to list your property?<Link to="/list-your-hotel" className="ml-1 font-medium text-indigo-600 hover:underline">Apply as a hotel owner</Link></p>
