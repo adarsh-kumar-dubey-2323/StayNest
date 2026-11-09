@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 const Login = () => {
   const navigate = useNavigate()
 
-  const { setUser, setOwner, axios } = useContext(AppContext)
+  const { setUser, setOwner, setIsAdmin, axios } = useContext(AppContext)
 
   // Correct useState
   const [formData, setFormData] = useState({
@@ -38,6 +38,7 @@ const submitHandler = async (e) => {
 
       const loggedInUser = data.user;
       setUser(loggedInUser);
+      setIsAdmin(Boolean(data.isAdmin));
 
       if (loggedInUser?.role === "owner") {
         setOwner(loggedInUser);
