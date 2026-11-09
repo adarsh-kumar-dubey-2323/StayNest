@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/list-your-hotel" element={<ListYourHotel />} />
-        <Route path="/admin/applications" element={isAdmin ? <Admin /> : <Navigate to={user ? "/" : "/login"} replace />} />
+        <Route path="/admin/applications" element={authLoading ? <div className="p-10 text-center">Checking admin session...</div> : isAdmin ? <Admin /> : <Navigate to={user ? "/" : "/login"} replace />} />
 
         <Route path="/owner" element={isOwner ? <OwnerLayout /> : <Navigate to="/login" replace />}>
           <Route index element={<AllHotels />} />
