@@ -31,6 +31,7 @@ const deliverVerificationEmail = async (user) => {
 export const signup = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    const isOwnerApplicant = req.body.accountType === "owner";
     if (!name?.trim() || !email?.trim() || !password) {
       return res.status(400).json({ success: false, message: "Name, email and password are required." });
     }
@@ -40,8 +41,9 @@ export const signup = async (req, res) => {
 
     const normalizedEmail = email.trim().toLowerCase();
     let user = await User.findOne({ email: normalizedEmail });
-    if (user?.isEmailVerified) {
-      return res.status(409).json({ success: false, message: "An account with this email already exists." });
+
+    if (user && (user.isEmailVerified || !(await bcrypt.compare(password, user.password)))) {
+      return res.status(409).json({ success: false, message: "An account with this email already exists. Please log in instead." });
     }
 
     if (!user) {
@@ -51,13 +53,22 @@ export const signup = async (req, res) => {
         email: normalizedEmail,
         password: hashedPassword,
         role: "user",
-        isEmailVerified: false,
+        isEmailVerified: isOwnerApplicant,
       });
-    } else {
-      // Allow an unverified account to request a fresh verification email.
-      if (!(await bcrypt.compare(password, user.password))) {
-        return res.status(409).json({ success: false, message: "An unverified account already exists for this email. Use the resend verification option." });
-      }
+    } else if (isOwnerApplicant) {
+      user.isEmailVerified = true;
+      user.emailVerificationTokenHash = null;
+      user.emailVerificationExpires = null;
+      await user.save();
+    }
+
+    if (isOwnerApplicant) {
+      return res.status(201).json({
+        success: true,
+        ownerApplicationAccount: true,
+        message: "Account created. Log in and submit your hotel-owner application for admin approval.",
+        email: user.email,
+      });
     }
 
     try {
