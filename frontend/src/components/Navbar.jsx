@@ -5,13 +5,15 @@ import { toast } from "react-hot-toast";
 import { AppContext } from "../context/AppContext.jsx";
 
 const Navbar = () => {
-    const { navigate, user, owner, setUser, setOwner, axios } = useContext(AppContext);
+    const { navigate, user, owner, isAdmin, setUser, setOwner, axios } = useContext(AppContext);
 
     const navLinks = [
         { name: "Home", path: "/" },
         { name: "Hotels", path: "/Hotel" },
         { name: "Rooms", path: "/Rooms" },
-        { name: "About", path: "/Aboutus" },  
+        { name: "About", path: "/Aboutus" },
+        { name: "List Your Hotel", path: "/list-your-hotel" },
+        ...(isAdmin ? [{ name: "Admin Applications", path: "/admin/applications" }] : []),  
     ];
 
     const [isMenuOpen, setIsMenuOpen] = useState(false);
