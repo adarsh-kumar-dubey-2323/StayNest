@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { AppContext } from '../context/AppContext'
 import { toast } from 'react-hot-toast'
 
 const Login = () => {
   const navigate = useNavigate()
+  const location = useLocation()
 
   const { setUser, setOwner, setIsAdmin, axios } = useContext(AppContext)
 
@@ -210,13 +211,14 @@ const submitHandler = async (e) => {
               Don't have an account?
 
               <Link
-                to="/signup"
+                to={location.state?.ownerSignup ? "/signup?type=owner" : "/signup"}
                 className="ml-1 font-medium text-indigo-500 transition hover:text-indigo-600 hover:underline"
               >
                 Sign up
               </Link>
 
             </p>
+            <p className="mt-4 text-sm text-gray-500">Want to list your property?<Link to="/signup?type=owner" className="ml-1 font-medium text-indigo-500 hover:underline">Create owner account</Link></p>
 
           </div>
 
