@@ -21,7 +21,7 @@ const getTransporter = () => {
 
 export const sendVerificationEmail = async ({ name, email, token }) => {
   const frontendUrl = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/$/, "");
-  const verificationUrl = frontendUrl + "/verify-email?token=" + encodeURIComponent(token);
+  const verificationUrl = frontendUrl + "/verify-email?token=" + encodeURIComponent(token) + "&email=" + encodeURIComponent(email);
   const from = process.env.EMAIL_FROM || process.env.SMTP_USER;
 
   await getTransporter().sendMail({
